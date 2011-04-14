@@ -3,7 +3,7 @@
 PREFIX="/usr/bin/"
 
 install_oil() {
-	sudo sh -c "curl --silent http://get.fuelphp.com/install.sh > ${PREFIX}oil"
+	sudo sh -c "curl --silent http://get.fuelphp.com/installer.sh > ${PREFIX}oil"
 	sudo chmod +x ${PREFIX}oil
 }
 
