@@ -1,0 +1,21 @@
+#!/bin/bash
+
+PREFIX="/usr/bin/"
+
+install_oil() {
+	sudo sh -c "curl --silent http://get.fuelphp.com/install.sh > ${PREFIX}oil"
+	sudo chmod +x ${PREFIX}oil
+}
+
+#
+# Handle execution
+#
+main() {
+
+	# Start installation
+	install_oil
+	exit 0
+}
+
+main
+
