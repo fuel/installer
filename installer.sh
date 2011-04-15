@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -f "./oil" ]; then
-        php oil $@
+        php oil "$@"
 else
 
         if [ "$1" == "create" ]; then
