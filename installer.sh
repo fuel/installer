@@ -5,6 +5,12 @@ if [ -f "./oil" ]; then
 else
 
         if [ "$1" == "create" ]; then
+	
+				if [ ! `which git` ]; then 
+					echo "For this installer to work you'll need to install Git."
+	                echo '        http://git-scm.com/'
+				fi
+				
                 git clone --recursive git://github.com/fuel/fuel.git "./$2"
                 php "./$2/oil" refine install
         else
