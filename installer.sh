@@ -5,13 +5,15 @@ if [ -f "./oil" ]; then
 else
 
         if [ "$1" == "create" ]; then
-	
-				if [ ! `which git` ]; then 
-					echo "For this installer to work you'll need to install Git."
-	                echo '        http://git-scm.com/'
-				fi
-				
-                git clone --recursive git://github.com/fuel/fuel.git "./$2"
+
+                if [ ! `which git` ]; then 
+                    echo "For this installer to work you'll need to install Git."
+                    echo '        http://git-scm.com/'
+                fi
+
+                current_version=`curl http://fuelphp.com/current-version`
+
+                git clone --recursive git://github.com/fuel/fuel.git "./$2" -b "$current_version/master"
                 php "./$2/oil" refine install
         else
                 echo 'This is not a valid Fuel installation so Oil is a bit lost.'
