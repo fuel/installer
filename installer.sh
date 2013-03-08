@@ -13,7 +13,8 @@ else
 
                 git clone --recursive git://github.com/fuel/fuel.git "./$2"
                 cd ./$2
-                branch=`git branch -a | grep -v "remote" | grep "master" | tail -1 | cut -d/ -f3-4`
+                branch=`git branch -a | grep -v "remote" | grep "master" | tail -1`
+                branch=${branch#* }
                 git checkout $branch
                 git submodule foreach git checkout $branch
                 cd ..
