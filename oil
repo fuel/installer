@@ -1,27 +1,28 @@
 #!/bin/bash
 
-PREFIX="/usr/bin/"
+if [ -f "./oil" ]; then
+        php oil "$@"
+else
 
-install_oil() {
+        if [ "$1" == "create" ]; then
+	
+				if [ ! `which git` ]; then 
+					echo "For this installer to work you'll need to install Git."
+	                echo '        http://git-scm.com/'
+				fi
+				
+                git clone --recursive git://github.com/fuel/fuel.git "./$2"
+                cd ./$2
+                branch=`git branch -a | grep -v "origin" | grep "master" | tail -1`
+                branch=${branch#* }
+                echo $branch
+                git checkout $branch
+                git submodule foreach git checkout $branch
+                cd ..
+                php "./$2/oil" refine install
+        else
+                echo 'This is not a valid Fuel installation so Oil is a bit lost.'
+                echo '        http://fuelphp.com/docs/installation/instructions.html'
 
-	if [ `which sudo` ]; then
-		sudo sh -c "curl --silent http://get.fuelphp.com/installer.sh > ${PREFIX}oil"
-		sudo chmod +x ${PREFIX}oil
-	else
-		sh -c "curl --silent http://get.fuelphp.com/installer.sh > ${PREFIX}oil"
-		chmod +x ${PREFIX}oil
-	fi
-}
-
-#
-# Handle execution
-#
-main() {
-
-	# Start installation
-	install_oil
-	exit 0
-}
-
-main
-
+        fi
+fi
