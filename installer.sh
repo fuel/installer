@@ -7,27 +7,38 @@ else
 
         # check for bash commandline options
         if [ "$1" == "create" ]; then
+                COMPOSER="composer"
+                DOWNLOAD=0
 
-                # make sure git is installed
-                if [ ! `which git` ]; then
-                    echo "For this installer to work you'll need to install Git."
-                    echo '        http://git-scm.com/'
+                # check if composer is installed
+                if [ ! `which composer` ]; then
+                    php -r "readfile('https://getcomposer.org/installer');" | php
+                    php composer.phar > /dev/null
+                    if [ $? -ne 0 ]; then
+                        php -r "readfile('http://getcomposer.org/installer');" | php
+                        php composer.phar > /dev/null
+                        if [ $? -ne 0 ]; then
+                            echo "Can't download composer.phar."
+                            echo 'Please install Composer manually. See https://getcomposer.org/doc/00-intro.md'
+                            exit 1
+                        fi
+                    fi
+
+                    COMPOSER="php composer.phar"
+                    DOWNLOAD=1
                 fi
 
-                # clone the repository, and make sure the latest master is active
-                git clone git://github.com/fuel/fuel.git "./$2"
-                cd ./$2
-                branch=`git branch -a | grep -v "remote" | grep "master" | tail -1`
-                branch=${branch#* }
-                git checkout $branch
-                
-                # run composer
-                php composer.phar self-update
-                php composer.phar update --prefer-dist
+                # remove argument `create`
+                shift
 
-                # fix potential rights issues
-                cd ..
-                php "./$2/oil" refine install
+                # run composer
+                echo "$COMPOSER create-project fuel/fuel:dev-1.7/master $@"
+                $COMPOSER create-project fuel/fuel:dev-1.7/master $@
+
+                # move downloaded `composer.phar`
+                if [ $DOWNLOAD -eq 1 ]; then
+                    mv composer.phar "$1"
+                fi
         else
                 echo 'This is not a valid Fuel installation so Oil is a bit lost.'
                 echo '        http://fuelphp.com/docs/installation/instructions.html'
