@@ -2,7 +2,7 @@
 
 # Export PREFIX with a custom directory or use default one.
 if [ -z "$PREFIX" ]; then
-	PREFIX="/usr/bin/"
+	PREFIX="/usr/local/bin/"
 fi
 
 install_oil() {
