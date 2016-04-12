@@ -32,8 +32,8 @@ else
                 shift
 
                 # run composer
-                echo "$COMPOSER create-project fuel/fuel:dev-1.7/master $@"
-                $COMPOSER create-project fuel/fuel:dev-1.7/master $@
+                echo "$COMPOSER create-project fuel/fuel $@"
+                $COMPOSER create-project fuel/fuel $@
 
                 # move downloaded `composer.phar`
                 if [ $DOWNLOAD -eq 1 ]; then
