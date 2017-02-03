@@ -8,10 +8,10 @@ fi
 install_oil() {
 
 	if [ `which sudo` ]; then
-		sudo sh -c "curl --silent http://get.fuelphp.com/installer.sh > ${PREFIX}oil"
+		sudo sh -c "curl --silent https://get.fuelphp.com/installer.sh > ${PREFIX}oil"
 		sudo chmod +x ${PREFIX}oil
 	else
-		sh -c "curl --silent http://get.fuelphp.com/installer.sh > ${PREFIX}oil"
+		sh -c "curl --silent https://get.fuelphp.com/installer.sh > ${PREFIX}oil"
 		chmod +x ${PREFIX}oil
 	fi
 }
